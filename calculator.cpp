@@ -1,19 +1,129 @@
 #include <windows.h>
+#include <stdio.h>
 
-HWND textfield;
+HWND textfield , btn_add , btn_sub , btn_mul , btn_div ;
+HWND textbox1 , textbox2 ;
 
 /* This is where all the input to the window goes to */
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	switch(Message) {
 		
+		//------------👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻------------//
+
 		case WM_CREATE:
-			textfield = CreateWindow("STATIC", "Hello world", 
-				WS_VISIBLE | WS_CHILD | WS_BORDER , 
-				20, 20, 300, 25, 
+			
+			textfield = CreateWindow("STATIC", "Please input two numbers", 
+				WS_VISIBLE | WS_CHILD | SS_CENTER , 
+				20, 20, 200, 25, 
+				hwnd, NULL, NULL, NULL);
+			
+			btn_add = CreateWindow("BUTTON", "+", 
+				WS_VISIBLE | WS_CHILD | WS_BORDER | SS_CENTER , 
+				50, 120, 25, 25, 
+				hwnd, (HMENU) '+' , NULL, NULL);
+
+			btn_sub = CreateWindow("BUTTON", "-", 
+				WS_VISIBLE | WS_CHILD | WS_BORDER | SS_CENTER , 
+				80, 120, 25, 25, 
+				hwnd, (HMENU) '-' , NULL, NULL);
+
+			btn_mul = CreateWindow("BUTTON", "*", 
+				WS_VISIBLE | WS_CHILD | WS_BORDER | SS_CENTER , 
+				110, 120, 25, 25, 
+				hwnd, (HMENU) '*' , NULL, NULL);
+
+			btn_div = CreateWindow("BUTTON", "/", 
+				WS_VISIBLE | WS_CHILD | WS_BORDER | SS_CENTER , 
+				140, 120, 25, 25, 
+				hwnd, (HMENU) '/' , NULL, NULL);
+			
+			textbox1 = CreateWindow("EDIT", "",
+				WS_VISIBLE | WS_CHILD | SS_CENTER , 
+				40, 50, 150, 25, 
+				hwnd, NULL, NULL, NULL);
+
+			textbox2 = CreateWindow("EDIT", "",
+				WS_VISIBLE | WS_CHILD | SS_CENTER , 
+				40, 80, 150, 25, 
 				hwnd, NULL, NULL, NULL);
 
 			break;
 
+		case WM_COMMAND:
+				
+				char text1[100] , text2[100] , result_text[100]; ;
+				double result, num1 , num2;
+
+				switch(LOWORD(wParam))
+				{
+					case '+':
+
+						GetWindowText(textbox1 , &text1[0] , 100);
+						GetWindowText(textbox2 , &text2[0] , 100);
+
+						num1 = atof(text1);
+						num2 = atof(text2);
+
+						result = num1 + num2;
+
+						sprintf(result_text, "%f", result);
+
+						::MessageBeep(MB_ICONERROR);
+						::MessageBox(hwnd , result_text , "Result" , MB_OK);
+						break;
+
+					case '-':
+
+						GetWindowText(textbox1 , &text1[0] , 100);
+						GetWindowText(textbox2 , &text2[0] , 100);
+
+						num1 = atof(text1);
+						num2 = atof(text2);
+
+						result = num1 - num2;
+
+						sprintf(result_text, "%f", result);
+
+						::MessageBeep(MB_ICONERROR);
+						::MessageBox(hwnd , result_text , "Result" , MB_OK);
+						break;
+
+					case '*':
+
+						GetWindowText(textbox1 , &text1[0] , 100);
+						GetWindowText(textbox2 , &text2[0] , 100);
+
+						num1 = atof(text1);
+						num2 = atof(text2);
+
+						result = num1 * num2;
+
+						sprintf(result_text, "%f", result);
+						
+						::MessageBeep(MB_ICONERROR);
+						::MessageBox(hwnd , result_text , "Result" , MB_OK);
+						break;
+
+					case '/':
+
+						GetWindowText(textbox1 , &text1[0] , 100);
+						GetWindowText(textbox2 , &text2[0] , 100);
+
+						num1 = atof(text1);
+						num2 = atof(text2);
+
+						result = num1 / num2;
+
+						sprintf(result_text, "%f", result);
+
+						::MessageBeep(MB_ICONERROR);
+						::MessageBox(hwnd , result_text , "Result" , MB_OK);
+						break;
+				}
+
+				break;
+		
+		//------------👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻👨‍💻------------//
 
 		/* Upon destruction, tell the main thread to stop */
 		case WM_DESTROY: {
